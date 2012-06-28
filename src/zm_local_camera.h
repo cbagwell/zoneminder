@@ -97,11 +97,11 @@ protected:
     static V4L1Data         v4l1_data;
 #endif // ZM_HAS_V4L1
 
-#if HAVE_LIBSWSCALE
+#if HAVE_LIBSWSCALE_SWSCALE_H
     PixelFormat             imagePixFormat;
     PixelFormat             capturePixFormat;
     static AVFrame          **capturePictures;
-#endif // HAVE_LIBSWSCALE
+#endif // HAVE_LIBSWSCALE_SWSCALE_H
 
 	static unsigned char	*y_table;
 	static signed char		*uv_table;

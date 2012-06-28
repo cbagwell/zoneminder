@@ -19,7 +19,7 @@
 
 #include "zm.h"
 
-#if HAVE_LIBAVFORMAT
+#if HAVE_LIBAVFORMAT_AVFORMAT_H
 
 #include "zm_rtp_data.h"
 
@@ -117,4 +117,4 @@ int RtpDataThread::run()
     return( 0 );
 }
 
-#endif // HAVE_LIBAVFORMAT
+#endif // HAVE_LIBAVFORMAT_AVFORMAT_H

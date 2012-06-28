@@ -19,7 +19,7 @@
 
 #include "zm.h"
 
-#if HAVE_LIBAVFORMAT
+#if HAVE_LIBAVFORMAT_AVFORMAT_H
 
 #include "zm_rtsp.h"
 
@@ -716,4 +716,4 @@ int RtspThread::run()
     return( 0 );
 }
 
-#endif // HAVE_LIBAVFORMAT
+#endif // HAVE_LIBAVFORMAT_AVFORMAT_H

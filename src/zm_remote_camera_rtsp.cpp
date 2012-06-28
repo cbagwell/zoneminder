@@ -19,7 +19,7 @@
 
 #include "zm.h"
 
-#if HAVE_LIBAVFORMAT
+#if HAVE_LIBAVFORMAT_AVFORMAT_H
 
 #include "zm_remote_camera_rtsp.h"
 #include "zm_ffmpeg.h"
@@ -268,4 +268,4 @@ int RemoteCameraRtsp::PostCapture()
 {
     return( 0 );
 }
-#endif // HAVE_LIBAVFORMAT
+#endif // HAVE_LIBAVFORMAT_AVFORMAT_H

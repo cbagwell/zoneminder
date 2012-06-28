@@ -33,13 +33,13 @@
 #endif // ZM_HAS_V4L
 #include "zm_remote_camera.h"
 #include "zm_remote_camera_http.h"
-#if HAVE_LIBAVFORMAT
+#if HAVE_LIBAVFORMAT_AVFORMAT_H
 #include "zm_remote_camera_rtsp.h"
-#endif // HAVE_LIBAVFORMAT
+#endif // HAVE_LIBAVFORMAT_AVFORMAT_H
 #include "zm_file_camera.h"
-#if HAVE_LIBAVFORMAT
+#if HAVE_LIBAVFORMAT_AVFORMAT_H
 #include "zm_ffmpeg_camera.h"
-#endif // HAVE_LIBAVFORMAT
+#endif // HAVE_LIBAVFORMAT_AVFORMAT_H
 
 #if ZM_MEM_MAPPED
 #include <sys/mman.h>
@@ -1962,7 +1962,7 @@ int Monitor::LoadRemoteMonitors( const char *protocol, const char *host, const c
                 purpose==CAPTURE
             );
         }
-#if HAVE_LIBAVFORMAT
+#if HAVE_LIBAVFORMAT_AVFORMAT_H
         else if ( protocol == "rtsp" )
         {
             camera = new RemoteCameraRtsp(
@@ -1981,7 +1981,7 @@ int Monitor::LoadRemoteMonitors( const char *protocol, const char *host, const c
                 purpose==CAPTURE
             );
         }
-#endif // HAVE_LIBAVFORMAT
+#endif // HAVE_LIBAVFORMAT_AVFORMAT_H
         else
         {
             Fatal( "Unexpected remote camera protocol '%s'", protocol.c_str() );
@@ -2157,7 +2157,7 @@ int Monitor::LoadFileMonitors( const char *file, Monitor **&monitors, Purpose pu
     return( n_monitors );
 }
 
-#if HAVE_LIBAVFORMAT
+#if HAVE_LIBAVFORMAT_AVFORMAT_H
 int Monitor::LoadFfmpegMonitors( const char *file, Monitor **&monitors, Purpose purpose )
 {
     static char sql[ZM_SQL_MED_BUFSIZ];
@@ -2284,7 +2284,7 @@ int Monitor::LoadFfmpegMonitors( const char *file, Monitor **&monitors, Purpose 
 
     return( n_monitors );
 }
-#endif // HAVE_LIBAVFORMAT
+#endif // HAVE_LIBAVFORMAT_AVFORMAT_H
 
 Monitor *Monitor::Load( int id, bool load_zones, Purpose purpose )
 {
@@ -2408,7 +2408,7 @@ Monitor *Monitor::Load( int id, bool load_zones, Purpose purpose )
             }
             else if ( protocol == "rtsp" )
             {
-#if HAVE_LIBAVFORMAT
+#if HAVE_LIBAVFORMAT_AVFORMAT_H
                 camera = new RemoteCameraRtsp(
                     id,
                     method.c_str(),
@@ -2424,9 +2424,9 @@ Monitor *Monitor::Load( int id, bool load_zones, Purpose purpose )
                     colour,
                     purpose==CAPTURE
                 );
-#else // HAVE_LIBAVFORMAT
+#else // HAVE_LIBAVFORMAT_AVFORMAT_H
                 Fatal( "You must have ffmpeg libraries installed to use remote camera protocol '%s' for monitor %d", protocol.c_str(), id );
-#endif // HAVE_LIBAVFORMAT
+#endif // HAVE_LIBAVFORMAT_AVFORMAT_H
             }
             else
             {
@@ -2450,7 +2450,7 @@ Monitor *Monitor::Load( int id, bool load_zones, Purpose purpose )
         }
         else if ( type == "Ffmpeg" )
         {
-#if HAVE_LIBAVFORMAT
+#if HAVE_LIBAVFORMAT_AVFORMAT_H
             camera = new FfmpegCamera(
                 id,
                 path.c_str(),
@@ -2463,9 +2463,9 @@ Monitor *Monitor::Load( int id, bool load_zones, Purpose purpose )
                 colour,
                 purpose==CAPTURE
             );
-#else // HAVE_LIBAVFORMAT
+#else // HAVE_LIBAVFORMAT_AVFORMAT_H
             Fatal( "You must have ffmpeg libraries installed to use ffmpeg cameras for monitor %d", id );
-#endif // HAVE_LIBAVFORMAT
+#endif // HAVE_LIBAVFORMAT_AVFORMAT_H
         }
         else
         {
@@ -2873,12 +2873,12 @@ bool Monitor::DumpSettings( char *output, bool verbose )
     {
         sprintf( output+strlen(output), "Path : %s\n", ((FileCamera *)camera)->Path() );
     }
-#if HAVE_LIBAVFORMAT
+#if HAVE_LIBAVFORMAT_AVFORMAT_H
     else if ( camera->IsFfmpeg() )
     {
         sprintf( output+strlen(output), "Path : %s\n", ((FfmpegCamera *)camera)->Path().c_str() );
     }
-#endif // HAVE_LIBAVFORMAT
+#endif // HAVE_LIBAVFORMAT_AVFORMAT_H
     sprintf( output+strlen(output), "Width : %d\n", camera->Width() );
     sprintf( output+strlen(output), "Height : %d\n", camera->Height() );
 #if ZM_HAS_V4L
@@ -3322,7 +3322,7 @@ bool MonitorStream::sendFrame( Image *image, struct timeval *timestamp )
     if ( !config.timestamp_on_capture && timestamp )
         monitor->TimestampImage( send_image, timestamp );
 
-#if HAVE_LIBAVCODEC
+#if HAVE_LIBAVCODEC_AVCODEC_H
     if ( type == STREAM_MPEG )
     {
         if ( !vid_stream )
@@ -3339,7 +3339,7 @@ bool MonitorStream::sendFrame( Image *image, struct timeval *timestamp )
         /* double pts = */ vid_stream->EncodeFrame( send_image->Buffer(), send_image->Size(), config.mpeg_timed_frames, delta_time.delta );
     }
     else
-#endif // HAVE_LIBAVCODEC
+#endif // HAVE_LIBAVCODEC_AVCODEC_H
     {
         static unsigned char temp_img_buffer[ZM_MAX_IMAGE_SIZE];
 

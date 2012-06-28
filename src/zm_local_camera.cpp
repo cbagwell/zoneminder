@@ -43,7 +43,7 @@ static int vidioctl( int fd, int request, void *arg )
     return( result );
 }
 
-#if HAVE_LIBSWSCALE
+#if HAVE_LIBSWSCALE_SWSCALE_H
 static PixelFormat getFfPixFormatFromV4lPalette( int v4l_version, int palette )
 {
     PixelFormat pixFormat = PIX_FMT_NONE;
@@ -241,7 +241,7 @@ static PixelFormat getFfPixFormatFromV4lPalette( int v4l_version, int palette )
 #endif // ZM_HAS_V4L1
     return( pixFormat );
 }
-#endif // HAVE_LIBSWSCALE
+#endif // HAVE_LIBSWSCALE_SWSCALE_H
 
 int LocalCamera::camera_count = 0;
 int LocalCamera::channel_count = 0;
@@ -258,9 +258,9 @@ LocalCamera::V4L2Data LocalCamera::v4l2_data;
 LocalCamera::V4L1Data LocalCamera::v4l1_data;
 #endif // ZM_HAS_V4L1
 
-#if HAVE_LIBSWSCALE
+#if HAVE_LIBSWSCALE_SWSCALE_H
 AVFrame **LocalCamera::capturePictures = 0;
-#endif // HAVE_LIBSWSCALE
+#endif // HAVE_LIBSWSCALE_SWSCALE_H
 
 unsigned char *LocalCamera::y_table;
 signed char *LocalCamera::uv_table;
@@ -323,10 +323,10 @@ LocalCamera::LocalCamera( int p_id, const std::string &p_device, int p_channel, 
             if ( width != last_camera->width || height != last_camera->height )
                 Warning( "Different capture sizes defined for monitors sharing same device, results may be unpredictable or completely wrong" );
         }
-#if HAVE_LIBSWSCALE
+#if HAVE_LIBSWSCALE_SWSCALE_H
         imagePixFormat = (colours==1)?PIX_FMT_GRAY8:PIX_FMT_RGB24;
         capturePixFormat = getFfPixFormatFromV4lPalette( v4l_version, palette );
-#endif // HAVE_LIBSWSCALE
+#endif // HAVE_LIBSWSCALE_SWSCALE_H
     }
     last_camera = this;
 }
@@ -339,12 +339,12 @@ LocalCamera::~LocalCamera()
 
 void LocalCamera::Initialise()
 {
-#if HAVE_LIBSWSCALE
+#if HAVE_LIBSWSCALE_SWSCALE_H
     if ( logDebugging() )
         av_log_set_level( AV_LOG_DEBUG );
     else
         av_log_set_level( AV_LOG_QUIET );
-#endif // HAVE_LIBSWSCALE
+#endif // HAVE_LIBSWSCALE_SWSCALE_H
 
     struct stat st; 
 
@@ -463,9 +463,9 @@ void LocalCamera::Initialise()
         Debug( 3, "Setting up %d data buffers", v4l2_data.reqbufs.count );
 
         v4l2_data.buffers = new V4L2MappedBuffer[v4l2_data.reqbufs.count];
-#if HAVE_LIBSWSCALE
+#if HAVE_LIBSWSCALE_SWSCALE_H
         capturePictures = new AVFrame *[v4l2_data.reqbufs.count];
-#endif // HAVE_LIBSWSCALE
+#endif // HAVE_LIBSWSCALE_SWSCALE_H
         for ( int i = 0; i < v4l2_data.reqbufs.count; i++ )
         {
             struct v4l2_buffer vid_buf;
@@ -487,7 +487,7 @@ void LocalCamera::Initialise()
             if ( v4l2_data.buffers[i].start == MAP_FAILED )
                 Fatal( "Can't map video buffer %d (%d bytes) to memory: %s(%d)", i, vid_buf.length, strerror(errno), errno );
 
-#if HAVE_LIBSWSCALE
+#if HAVE_LIBSWSCALE_SWSCALE_H
             if ( imagePixFormat != capturePixFormat || v4l2_data.fmt.fmt.pix.width != width || v4l2_data.fmt.fmt.pix.height != height )
             {
                 capturePictures[i] = avcodec_alloc_frame();
@@ -495,7 +495,7 @@ void LocalCamera::Initialise()
                     Fatal( "Could not allocate picture" );
                 avpicture_fill( (AVPicture *)capturePictures[i], (unsigned char *)v4l2_data.buffers[i].start, capturePixFormat, v4l2_data.fmt.fmt.pix.width, v4l2_data.fmt.fmt.pix.height );
             }
-#endif // HAVE_LIBSWSCALE
+#endif // HAVE_LIBSWSCALE_SWSCALE_H
         }
 
         Debug( 3, "Configuring video source" );
@@ -630,7 +630,7 @@ void LocalCamera::Initialise()
         if ( v4l1_data.bufptr == MAP_FAILED )
             Fatal( "Could not mmap video: %s", strerror(errno) );
 
-#if HAVE_LIBSWSCALE
+#if HAVE_LIBSWSCALE_SWSCALE_H
         capturePictures = new AVFrame *[v4l1_data.frames.frames];
         for ( int i = 0; i < v4l1_data.frames.frames; i++ )
         {
@@ -647,7 +647,7 @@ void LocalCamera::Initialise()
                 avpicture_fill( (AVPicture *)capturePictures[i], (unsigned char *)v4l1_data.bufptr+v4l1_data.frames.offsets[i], capturePixFormat, width, height );
             }
         }
-#endif // HAVE_LIBSWSCALE
+#endif // HAVE_LIBSWSCALE_SWSCALE_H
 
         Debug( 3, "Configuring video source" );
 
@@ -1639,7 +1639,7 @@ int LocalCamera::Capture( Image &image )
             buffer = v4l1_data.bufptr+v4l1_data.frames.offsets[capture_frame];
         }
 #endif // ZM_HAS_V4L1
-#if HAVE_LIBSWSCALE
+#if HAVE_LIBSWSCALE_SWSCALE_H
         Debug( 3, "Doing format conversion" );
 
         static struct SwsContext *imgConversionContext = 0;
@@ -1665,7 +1665,7 @@ int LocalCamera::Capture( Image &image )
             sws_scale( imgConversionContext, capturePictures[capture_frame]->data, capturePictures[capture_frame]->linesize, 0, height, tmpPicture->data, tmpPicture->linesize );
             buffer = tmpPicture->data[0];
         }
-#else // HAVE_LIBSWSCALE 
+#else // HAVE_LIBSWSCALE_SWSCALE_H
         static unsigned char temp_buffer[ZM_MAX_IMAGE_SIZE];
         switch( palette )
         {
@@ -1956,7 +1956,7 @@ int LocalCamera::Capture( Image &image )
                 break;
             }
         }
-#endif // HAVE_LIBSWSCALE 
+#endif // HAVE_LIBSWSCALE_SWSCALE_H
     }
 
     Debug( 3, "Assigning image" );

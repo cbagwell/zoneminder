@@ -92,9 +92,9 @@ protected:
     double last_frame_sent;
     struct timeval last_frame_timestamp;
 
-#if HAVE_LIBAVCODEC     
+#if HAVE_LIBAVCODEC_AVCODEC_H
     VideoStream *vid_stream;
-#endif // HAVE_LIBAVCODEC     
+#endif // HAVE_LIBAVCODEC_AVCODEC_H
 
     CmdMsg msg;
 
@@ -136,9 +136,9 @@ public:
         effective_fps = 0.0;
         frame_mod = 1;
 
-#if HAVE_LIBAVCODEC     
+#if HAVE_LIBAVCODEC_AVCODEC_H
         vid_stream = 0;
-#endif // HAVE_LIBAVCODEC     
+#endif // HAVE_LIBAVCODEC_AVCODEC_H
     }
     virtual ~StreamBase();
 

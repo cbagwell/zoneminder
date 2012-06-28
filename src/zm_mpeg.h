@@ -22,7 +22,7 @@
 
 #include "zm_ffmpeg.h"
 
-#if HAVE_LIBAVCODEC
+#if HAVE_LIBAVCODEC_AVCODEC_H
 
 class VideoStream
 {
@@ -65,6 +65,6 @@ public:
 	double EncodeFrame( uint8_t *buffer, int buffer_size, bool add_timestamp=false, unsigned int timestamp=0 );
 };
 
-#endif // HAVE_LIBAVCODEC
+#endif // HAVE_LIBAVCODEC_AVCODEC_H
 
 #endif // ZM_MPEG_H

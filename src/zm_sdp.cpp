@@ -19,7 +19,7 @@
 
 #include "zm.h"
 
-#if HAVE_LIBAVFORMAT
+#if HAVE_LIBAVFORMAT_AVFORMAT_H
 
 #include "zm_sdp.h"
 
@@ -395,4 +395,4 @@ AVFormatContext *SessionDescriptor::generateFormatContext() const
     return( formatContext );
 }
 
-#endif // HAVE_LIBAVFORMAT
+#endif // HAVE_LIBAVFORMAT_AVFORMAT_H

@@ -1187,7 +1187,7 @@ bool EventStream::sendFrame( int delta_us )
     static char filepath[PATH_MAX];
     snprintf( filepath, sizeof(filepath), Event::capture_file_format, event_data->path, curr_frame_id );
 
-#if HAVE_LIBAVCODEC
+#if HAVE_LIBAVCODEC_AVCODEC_H
     if ( type == STREAM_MPEG )
     {
         Image image( filepath );
@@ -1203,7 +1203,7 @@ bool EventStream::sendFrame( int delta_us )
         /* double pts = */ vid_stream->EncodeFrame( send_image->Buffer(), send_image->Size(), config.mpeg_timed_frames, delta_us*1000 );
     }
     else
-#endif // HAVE_LIBAVCODEC
+#endif // HAVE_LIBAVCODEC_AVCODEC_H
     {
         static unsigned char temp_img_buffer[ZM_MAX_IMAGE_SIZE];
 
@@ -1406,10 +1406,10 @@ void EventStream::runStream()
             usleep( STREAM_PAUSE_WAIT );
         }
     }
-#if HAVE_LIBAVCODEC
+#if HAVE_LIBAVCODEC_AVCODEC_H
     if ( type == STREAM_MPEG )
         delete vid_stream;
-#endif // HAVE_LIBAVCODEC
+#endif // HAVE_LIBAVCODEC_AVCODEC_H
 
     closeComms();
 }

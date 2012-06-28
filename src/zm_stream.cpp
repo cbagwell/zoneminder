@@ -240,7 +240,7 @@ bool StreamBase::sendTextFrame( const char *frame_text )
     {
         image.Scale( scale );
     }
-#if HAVE_LIBAVCODEC
+#if HAVE_LIBAVCODEC_AVCODEC_H
     if ( type == STREAM_MPEG )
     {
         if ( !vid_stream )
@@ -252,7 +252,7 @@ bool StreamBase::sendTextFrame( const char *frame_text )
         /* double pts = */ vid_stream->EncodeFrame( image.Buffer(), image.Size() );
     }
     else
-#endif // HAVE_LIBAVCODEC
+#endif // HAVE_LIBAVCODEC_AVCODEC_H
     {
         static unsigned char buffer[ZM_MAX_IMAGE_SIZE];
         int n_bytes = 0;

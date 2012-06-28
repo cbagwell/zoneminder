@@ -19,7 +19,7 @@
 
 #include "zm.h"
 
-#if HAVE_LIBAVFORMAT
+#if HAVE_LIBAVFORMAT_AVFORMAT_H
 
 #include "zm_ffmpeg_camera.h"
 
@@ -201,4 +201,4 @@ int FfmpegCamera::PostCapture()
     return( 0 );
 }
 
-#endif // HAVE_LIBAVFORMAT
+#endif // HAVE_LIBAVFORMAT_AVFORMAT_H

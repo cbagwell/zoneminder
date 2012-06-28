@@ -23,7 +23,7 @@
 #include "zm.h"
 #include "zm_mpeg.h"
 
-#if HAVE_LIBAVCODEC
+#if HAVE_LIBAVCODEC_AVCODEC_H
 
 bool VideoStream::initialised = false;
 
@@ -406,4 +406,4 @@ double VideoStream::EncodeFrame( uint8_t *buffer, int buffer_size, bool add_time
 	return( pts );
 }
 
-#endif // HAVE_LIBAVCODEC
+#endif // HAVE_LIBAVCODEC_AVCODEC_H
