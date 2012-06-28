@@ -12,7 +12,7 @@
 # Current version of ZoneMinder
 ZM_VERSION=@VERSION@
 
-# Path to build directory, used mostly for finding DB upgrade scripts
+# Path to build directory.
 ZM_PATH_BUILD=@PATH_BUILD@
 
 # Build time, used to record when to trigger various checks
@@ -26,6 +26,9 @@ ZM_PATH_LIB=@LIBDIR@
 
 # Path to ZoneMinder configuration (this file only at present)
 ZM_PATH_CONF=@SYSCONFDIR@
+
+# Path to data directory, used mostly for finding DB upgrade scripts
+ZM_PATH_DATA=@PKGDATADIR@
 
 # Path to ZoneMinder web files
 ZM_PATH_WEB=@WEB_PREFIX@
