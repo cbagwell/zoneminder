@@ -26,6 +26,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <limits.h>
 #include <unistd.h>
 #include <sys/mman.h>
 #include <errno.h>

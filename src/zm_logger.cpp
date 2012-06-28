@@ -33,6 +33,7 @@
 #include <signal.h>
 #include <stdarg.h>
 #include <errno.h>
+#include <unistd.h>
 
 bool Logger::smInitialised = false;
 Logger *Logger::smInstance = 0;
