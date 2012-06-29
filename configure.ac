@@ -31,9 +31,6 @@ fi
 if test "$ZM_DB_PASS" == ""; then
 	AC_SUBST(ZM_DB_PASS,[zmpass])
 fi
-if test "$ZM_SSL_LIB" == ""; then
-	AC_SUBST(ZM_SSL_LIB,gnutls)
-fi
 if test "$ZM_MYSQL_ENGINE" == ""; then
 	AC_SUBST(ZM_MYSQL_ENGINE,MyISAM)
 fi
