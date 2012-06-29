@@ -56,8 +56,11 @@ void zm_jpeg_emit_message( j_common_ptr cinfo, int msg_level )
 		/* It's a warning message.  Since corrupt files may generate many warnings,
 		 * the policy implemented here is to show only the first warning,
 		 * unless trace_level >= 3.
+		 * Wide range of IP cameras are found to be flooding log files with
+		 * "N extraneous bytes before marker 0xXX" messages so ignore those always.
 		 */
-		if ( zmerr->pub.num_warnings == 0 || zmerr->pub.trace_level >= 3 )
+		if ( ( zmerr->pub.num_warnings == 0 || zmerr->pub.trace_level >= 3 ) &&
+		     cinfo->err->msg_code != JWRN_EXTRANEOUS_DATA )
 		{
 			(zmerr->pub.format_message)( cinfo, buffer ); 
 			Warning( "%s", buffer );
