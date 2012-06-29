@@ -269,6 +269,7 @@ fi
 AC_CHECK_LIB(pcre,pcre_compile,,AC_MSG_WARN(libpcre.a may be required for remote/network camera support))
 AC_CHECK_LIB(z,zlibVersion)
 AC_CHECK_LIB(x264,x264_predict_16x16_init)
+if test "$with_ffmpeg" != "no"; then
 AC_CHECK_LIB(avutil,av_malloc,,AC_MSG_WARN(libavutil.a may be required for MPEG streaming))
 # Don't bother to warn about this one
 AC_CHECK_LIB(avcore,av_image_copy,,)
@@ -277,6 +278,7 @@ AC_CHECK_LIB(avformat,av_new_stream,,AC_MSG_WARN(libavformat.a is required for M
 AC_CHECK_LIB(avdevice,avdevice_register_all,,AC_MSG_WARN(libavdevice.a may be required for MPEG streaming))
 AC_CHECK_LIB(swscale,sws_scale,,,-lswscale)
 AC_CHECK_LIB(bz2,BZ2_bzCompress,,AC_MSG_WARN(zm requires libbz2.a for recent versions of ffmpeg))
+fi
 AC_CHECK_LIB(z,compress,,)
 
 # Checks for header files.
@@ -297,10 +299,12 @@ AC_MSG_WARN(zm requires Video4Linux or Video4Linux2 to be installed for analog o
 fi
 AC_CHECK_HEADERS(jpeglib.h,,AC_MSG_ERROR(zm requires libjpeg headers to be installed),)
 AC_CHECK_HEADERS(mysql/mysql.h,,AC_MSG_ERROR(zm requires MySQL headers - check that MySQL development packages are installed),)
+if test "$with_ffmpeg" != "no"; then
 AC_CHECK_HEADERS(libavutil/avutil.h,,,)
 AC_CHECK_HEADERS(libavcodec/avcodec.h,,,)
 AC_CHECK_HEADERS(libavformat/avformat.h,,,)
 AC_CHECK_HEADERS(libswscale/swscale.h,,,)
+fi
 AC_CHECK_HEADERS(pcre/pcre.h,AC_SUBST(ZM_PCRE,"1"),,)
 AC_CHECK_HEADERS(pcre.h,AC_SUBST(ZM_PCRE,"1"),,)
 if test "$ENABLE_MMAP" == "yes"; then
