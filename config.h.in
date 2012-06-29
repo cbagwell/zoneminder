@@ -11,6 +11,9 @@
 /* Define to 1 if using `alloca.c'. */
 #undef C_ALLOCA
 
+/* Expanded data directory */
+#undef DATADIR
+
 /* Define to 1 if you have `alloca', as a function or macro. */
 #undef HAVE_ALLOCA
 
@@ -24,6 +27,10 @@
 /* Define to 1 if you have the declaration of `backtrace', and to 0 if you
    don't. */
 #undef HAVE_DECL_BACKTRACE
+
+/* Define to 1 if you have the declaration of `gcry_md_hash_buffer', and to 0
+   if you don't. */
+#undef HAVE_DECL_GCRY_MD_HASH_BUFFER
 
 /* Define to 1 if you have the declaration of `MD5', and to 0 if you don't. */
 #undef HAVE_DECL_MD5
@@ -106,9 +113,6 @@
 
 /* Define to 1 if you have the `gcrypt' library (-lgcrypt). */
 #undef HAVE_LIBGCRYPT
-
-/* Define to 1 if you have the `gnutls-openssl' library (-lgnutls-openssl). */
-#undef HAVE_LIBGNUTLS_OPENSSL
 
 /* Define to 1 if you have the `jpeg' library (-ljpeg). */
 #undef HAVE_LIBJPEG
