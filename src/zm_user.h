@@ -23,14 +23,11 @@
 #ifndef ZM_USER_H
 #define ZM_USER_H
 
-#if HAVE_LIBGNUTLS_OPENSSL
-#include <gnutls/openssl.h>
 #if HAVE_GCRYPT_H
 #include <gcrypt.h>
-#endif // HAVE_GCRYPT_H
 #elif HAVE_LIBCRYPTO
 #include <openssl/md5.h>
-#endif // HAVE_LIBGNUTLS_OPENSSL || HAVE_LIBCRYPTO
+#endif // HAVE_LIBCRYPTO
 
 class User
 {

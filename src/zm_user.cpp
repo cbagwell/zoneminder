@@ -143,7 +143,7 @@ User *zmLoadUser( const char *username, const char *password )
 // Function to validate an authentication string
 User *zmLoadAuthUser( const char *auth, bool use_remote_addr )
 {
-#if HAVE_DECL_MD5
+#if defined(HAVE_DECL_MD5) || defined(HAVE_GCRYPT_H)
 #ifdef HAVE_GCRYPT_H
     // Special initialisation for libgcrypt
     if ( !gcry_check_version( GCRYPT_VERSION ) )
@@ -196,7 +196,7 @@ User *zmLoadAuthUser( const char *auth, bool use_remote_addr )
 
 		char auth_key[512] = "";
 		char auth_md5[32+1] = "";
-		unsigned char md5sum[MD5_DIGEST_LENGTH];
+		unsigned char md5sum[16];
 
 		time_t now = time( 0 );
 		int max_tries = 2;
@@ -216,9 +216,13 @@ User *zmLoadAuthUser( const char *auth, bool use_remote_addr )
 				now_tm->tm_year
 			);
 
+#ifdef HAVE_GCRYPT_H
+			gcry_md_hash_buffer( GCRY_MD_MD5, md5sum, auth_key, strlen(auth_key) );
+#else
 			MD5( (unsigned char *)auth_key, strlen(auth_key), md5sum );
+#endif
 			auth_md5[0] = '\0';
-			for ( int j = 0; j < MD5_DIGEST_LENGTH; j++ )
+			for ( int j = 0; j < 16; j++ )
 			{
 				sprintf( &auth_md5[2*j], "%02x", md5sum[j] );
 			}
